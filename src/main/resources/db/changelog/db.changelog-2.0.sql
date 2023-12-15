@@ -1,21 +1,14 @@
 --liquibase formatted sql
 
 --changeset artur:1
-CREATE TABLE  IF NOT EXISTS users(
-                                     id BIGINT PRIMARY KEY auto_increment,
-                                     username VARCHAR(64) NOT NULL UNIQUE,
-    password VARCHAR(128) NOT NULL,
-    name VARCHAR(64) NOT NULL
+CREATE TABLE IF NOT EXISTS commentary
+(
+    id bigint PRIMARY KEY auto_increment,
+    user_id BIGINT NOT NULL,
+    foreign key (user_id)REFERENCES users (id),
+    task_id BIGINT NOT NULL,
+    foreign key (task_id)REFERENCES task (id)
     );
-
 --changeset artur:2
-CREATE TABLE  IF NOT EXISTS task(
-                                    id BIGINT PRIMARY KEY auto_increment,
-                                    title VARCHAR(32) NOT NULL,
-    description VARCHAR(128) NOT NULL,
-    status VARCHAR(16) NOT NULL,
-    priority VARCHAR(16) NOT NULL,
-    author_id BIGINT NOT NULL,
-    executor_username VARCHAR(64),
-    foreign key (author_id) REFERENCES users (id)
-    );
+alter table commentary
+add column comment varchar(256);
